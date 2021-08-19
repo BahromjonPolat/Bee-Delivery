@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class RegistrationPage extends StatefulWidget {
   @override
   _RegistrationPageState createState() => _RegistrationPageState();
@@ -102,7 +102,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
-  void _onPressed()  {
+  void _onPressed() {
+
     if (name.isEmpty) {
       return;
     }
@@ -119,11 +120,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
       return;
     }
 
-    print(name);
-    print(email);
-    print(phone);
-    print(password);
-
+    _addToSP("name", name);
+    _addToSP("email", email);
+    _addToSP("phone", phone);
+    _addToSP("password", password);
   }
+
+  _addToSP(String key, String value) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString(key, value);
+  }
+
 }
 

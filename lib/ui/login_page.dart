@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,10 +9,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String dbEmail = "Bahrom";
-  String dbPw = "123456";
-  String email = "";
-  String pw = "";
+  String email;
+  String password;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SafeArea(
         child: Column(
-
           children: [
             Container(
               padding: EdgeInsets.all(16.0),
@@ -62,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
-                onChanged: (val) => pw = val,
+                onChanged: (val) => password = val,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
                   labelText: "Password",
@@ -74,9 +72,13 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               width: size.width * 0.9,
               height: size.height * 0.06,
-              child: RaisedButton(
-                color: Color.fromARGB(255, 250, 245, 1),
+
+              child: ElevatedButton(
                 onPressed: _onPressed,
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.yellowAccent,
+
+                ),
                 child: Text(
                   "Sign in",
                   style: TextStyle(
@@ -94,24 +96,33 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  _onPressed() {
-    print(email);
-    print(pw);
+  _onPressed() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String email = pref.getString("email");
+    String password = pref.getString("password");
 
-    if (email.isEmpty) {
+    if (this.email.isEmpty) {
       return;
     }
 
-    if (pw.isEmpty) {
+    if (this.password.isEmpty) {
       return;
     }
 
-    if (dbEmail == email && dbPw == pw) {
-      Navigator.push(context, MaterialPageRoute(builder: (_) {
-        return;
-      }));
+    if (email == this.email && password == this.password) {
+     _showToast("Welcome!");
+      // Navigator.push(context, MaterialPageRoute(builder: (_) {
+      //   return;
+      // }));
     } else {
-      print("Wrong login or password");
+      _showToast("Wrong Email or Password!");
     }
   }
+
+  _showToast(String msg) =>  Fluttertoast.showToast(
+    msg: "Welcome",
+    toastLength: Toast.LENGTH_SHORT,
+    backgroundColor: Colors.yellowAccent,
+    textColor: Colors.black,
+  );
 }

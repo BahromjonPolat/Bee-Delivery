@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.yellow,
         accentColor: Colors.yellowAccent,
       ),
-      home: RegistrationPage(),
+      home: SplashScreenPage(),
     );
   }
 }

@@ -1,5 +1,7 @@
+import 'package:bee_delivery/ui/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:async';
 
 class SplashScreenPage extends StatefulWidget {
   @override
@@ -7,6 +9,15 @@ class SplashScreenPage extends StatefulWidget {
 }
 
 class _SplashScreenPageState extends State<SplashScreenPage> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+        Duration(seconds: 2),
+        () => Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginPage())));
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -23,10 +34,9 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
           Text(
             "BEE DELIVERY",
             style: TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'poppins'
-            ),
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'poppins'),
           ),
           Text(
             "at your doorstep",
